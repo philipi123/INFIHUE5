@@ -1,6 +1,8 @@
 package hausuebung_4;
 
 import java.sql.*;
+import java.time.LocalDate;
+
 
 public class Runner {
 	public static Connection createConnection() {
@@ -29,14 +31,22 @@ public class Runner {
 			
 			Klasse.insertKlasse(c, 1, 22, "1AHWII");
 			Klasse.insertKlasse(c, 2, 36, "1BHWII");
+			
+			
 			Schueler.insertSchueler(c, 1, "Johann", "Peter");
 			Schueler.insertSchueler(c, 2, "Hans", "Maier");
-			SchuelerZKlasse.insertSchuelerZKlasse(c, "1", "1", "2018-06-13");
-			SchuelerZKlasse.insertSchuelerZKlasse(c, "2", "2", "2018-06-13");
+			
+			SchuelerZKlasse.insertSchuelerZKlasse(c, "1", "1", LocalDate.of(2018, 06, 13));
+			SchuelerZKlasse.insertSchuelerZKlasse(c, "2", "2", LocalDate.of(2018, 06, 13));
+			
+			
 			
 			Klasse.WriteKlasse(c, "/Users/philip/Desktop/HTL/SWP-Greinöcker/ECLIPSE/Infi/src/hausuebung_4/klasse.csv");
+			
 			Schueler.writeSchueler(c, "/Users/philip/Desktop/HTL/SWP-Greinöcker/ECLIPSE/Infi/src/hausuebung_4/schueler.csv");
+			
 			SchuelerZKlasse.writeSchuelerZKlasse(c, "/Users/philip/Desktop/HTL/SWP-Greinöcker/ECLIPSE/Infi/src/hausuebung_4/schuelerzklasse.csv");
+			
 
 			c.close();
 			

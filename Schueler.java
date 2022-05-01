@@ -47,7 +47,7 @@ package hausuebung_4;
 				stmt.setInt(1, ktNR);
 				stmt.setString(2, vorname);
 				stmt.setString(3, nachname);
-				stmt.executeUpdate(s);
+				stmt.executeUpdate();
 				stmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();

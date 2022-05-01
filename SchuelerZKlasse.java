@@ -2,6 +2,7 @@ package hausuebung_4;
 
 
 	import java.io.File;
+
 	import java.io.FileWriter;
 	import java.io.IOException;
 	import java.sql.Connection;
@@ -29,7 +30,7 @@ package hausuebung_4;
 		public static void createSchuelerZKlasse(Connection c) {
 			try {
 				Statement stmt = c.createStatement();
-				String sql = "create table if not exists SchuelerZKlasse (schID int not null, klID int not null, datum date not null, primary key(schID, klID, datum), foreign key (schID) references Schueler(ktNR), foreign key (klID) references Klasse(KlNR));"; 
+				String sql = "create table if not exists SchuelerZKlasse (schID int not null, klID int not null, datum date not null, primary key(schID, klID, datum), foreign key (schID) references Schueler(ktNR), foreign key (klID) references Klasse(Klnr));"; 
 				stmt.executeUpdate(sql);
 				stmt.close();
 			} catch (SQLException e) {
@@ -38,19 +39,20 @@ package hausuebung_4;
 			}
 		}
 		
-		public static void insertSchuelerZKlasse(Connection c, String schID, String klID, String eintragsdatum) {					
+		public static void insertSchuelerZKlasse(Connection c, String schID, String klID, LocalDate datum) {					
 			try {
-				LocalDate today = LocalDate.now();
-				java.sql.Date sqld = java.sql.Date.valueOf(today);
+				//LocalDate today = LocalDate.now();
+				java.sql.Date sqld = java.sql.Date.valueOf(datum);
 				
-				String sql = "insert into SchuelerZuKlasse (schID, klID, eintragsdatum) values (" + schID + ", " + klID + ", \"" + sqld + "\");";
+				String sql = "insert into SchuelerZKlasse (schID, klID, datum) values (?, ?, ?);";
+						//+ "(" + schID + ", " + klID + ", " + sqld + ");";
 						
 				PreparedStatement stmt = c.prepareStatement(sql);
-				
+
 				stmt.setString(1, schID);
 				stmt.setString(2, klID);
-				stmt.setString(3, eintragsdatum);
-				stmt.executeUpdate(sql);
+				stmt.setDate(3, sqld);
+				stmt.executeUpdate();
 				stmt.close(); 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -64,14 +66,14 @@ package hausuebung_4;
 				FileWriter fw = new FileWriter(f);
 
 				Statement stmt = c.createStatement();
-				String sql = "select schID, klID, eintragsdatum from schuelerZuKlasse;";
+				String sql = "select schID, klID, datum from schuelerZKlasse;";
 				ResultSet rs = stmt.executeQuery(sql);
 				int id = 1;	
 
 				while (rs.next()) {
 					int sid = rs.getInt("schID");
 					int klid = rs.getInt("klID");
-					Date d = rs.getDate("eintragsdatum");
+					Date d = rs.getDate("datum");
 					
 					String csv = id + ", " + sid + ", " + klid + ", " + d;
 					fw.write(csv);

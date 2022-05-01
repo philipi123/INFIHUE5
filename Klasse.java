@@ -20,7 +20,7 @@ public class Klasse extends Runner{
 	public static void createKlasse(Connection c) {
 		try {
 			Statement stmt = c.createStatement();
-			String sql = "create table if not exists Klasse (KlNr int primary key, anzschueler int, abteilung varchar(30));";
+			String sql = "create table if not exists Klasse (Klnr int primary key, anzschueler int, abteilung varchar(30));";
 			stmt.executeUpdate(sql);
 			stmt.close();
 		} catch (SQLException e) {
@@ -28,16 +28,16 @@ public class Klasse extends Runner{
 		}
 	}
 
-	public static void insertKlasse(Connection c, int KlNR, int anzschueler, String abteilung) {
+	public static void insertKlasse(Connection c, int Klnr, int anzschueler, String abteilung) {
 
 		try {
-			String s = "insert into Klasse (KlNR, anzschueler, abteilung) values (?, ?, ?);";
+			String s = "insert into Klasse (Klnr, anzschueler, abteilung) values (?, ?, ?);";
 			PreparedStatement stmt = c.prepareStatement(s);
 
-			stmt.setInt(1, KlNR);
+			stmt.setInt(1, Klnr);
 			stmt.setInt(2, anzschueler);
 			stmt.setString(3, abteilung);
-			stmt.executeUpdate(s);
+			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -50,12 +50,12 @@ public class Klasse extends Runner{
 			FileWriter fw = new FileWriter(f);
 
 			Statement stmt = c.createStatement();
-			String sql = "select KlNR, anzschueler, abteilung from klasse;";
+			String sql = "select Klnr, anzschueler, abteilung from klasse;";
 			ResultSet rs = stmt.executeQuery(sql);
 			/*auto_increment*/ int id = 1;	
 
 			while (rs.next()) {
-				int kln = rs.getInt("KlNR");
+				int kln = rs.getInt("Klnr");
 				int s = rs.getInt("anzschueler");
 				String abt = rs.getString("abteilung");
 
